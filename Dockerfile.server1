@@ -1,0 +1,11 @@
+FROM golang:alpine
+
+WORKDIR /usr/src/app
+
+COPY server1 .
+
+RUN go mod download
+
+RUN go build -o server
+
+ENTRYPOINT [ "./server" ]

@@ -1,0 +1,49 @@
+version: "3"
+services:
+  traefik-docker:
+    image: traefik:v2.9
+    container_name: traefik-balancer
+    command: 
+      - "--api.insecure=tue"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=80"
+    
+    ports:
+      - 80:80
+      - 8080:8080
+    labels:
+      - "traefik.frontend.rule=Host:is-kiyotaka.co.id"
+      - "traefik.port=8080"
+    
+    volumes:
+      - "./traefik.yaml:/traefik.yaml"
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+  
+  server1:
+    build:
+      context: .
+      dockerfile: Dockerfile.server1
+    ports:
+      - 3000:3000
+    container_name: server1
+    labels:
+      - "traefik.enable=true"
+      - "traefik.server1.backend=server1"
+      - "traefik.server1.frontend.rule=Host:is-kiyotaka.co.id;PathPrefixStrip:/"
+      - "traefik.frontend.server1.forward.address=http://localhost:3000"
+      - "traefik.port=3000"
+  
+  server2:
+    build:
+      context: .
+      dockerfile: Dockerfile.server2
+    ports:
+      - 3001:3001
+    container_name: server2
+    labels:
+      - "traefik.enable=true"
+      - "traefik.server2.backend=server2"
+      - "traefik.server2.frontend.rule=Host:is-kiyotaka.co.id;PathPrefixStrip:/"
+      - "traefik.frontend.server2.forward.address=http://localhost:3001"
+      - "traefik.port=3001"
