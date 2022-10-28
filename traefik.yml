@@ -1,0 +1,17 @@
+
+global:
+  checkNewVersion: true
+  sendAnonymousUsage: true
+entryPoints:
+  web:
+    address: :80
+
+  websecure:
+    address: :443
+api:
+  insecure: true
+  dashboard: true
+providers:
+  file:
+    filename: /etc/traefik/router.yml
+    watch: true

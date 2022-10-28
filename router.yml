@@ -1,0 +1,12 @@
+http:
+  routers:
+    rotraefik:
+      rule: "Host(`is-kiyotaka.co.id`) && PathPrefix(`/`)"
+      service: "roservices"
+  
+  services:
+    roservices:
+      loadBalancer:
+        servers:
+          - url: http://192.168.50.218:3000
+          - url: http://192.168.50.218:3001
