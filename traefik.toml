@@ -9,4 +9,5 @@
     [tcp.services.roservices.loadBalancer]
       [[tcp.services.roservices.loadBalancer.servers]]
         address = "192.168.50.218:3000"
+      [[tcp.services.roservices.loadBalancer.servers]]
         address = "192.168.50.218:3001"
