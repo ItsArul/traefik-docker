@@ -1,0 +1,12 @@
+[tcp]
+  [tcp.routers]
+    [tcp.routers.rotraefik]
+      rule = "HostSNI(`is-kiyotaka.co.id`)"
+      service = "roservices"
+      [tcp.routers.rotraefik.tls]
+
+  [tcp.services]
+    [tcp.services.roservices.loadBalancer]
+      [[tcp.services.roservices.loadBalancer.servers]]
+        address = "192.168.50.218:3000"
+        address = "192.168.50.218:3001"
