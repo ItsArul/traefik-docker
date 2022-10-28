@@ -2,26 +2,12 @@ version: "3"
 services:
   traefik-docker:
     image: traefik:v2.9
-    container_name: traefik-balancer
-    command: 
-      - "--api.insecure=tue"
-      - "--providers.docker=true"
-      - "--providers.docker.exposedbydefault=false"
-      - "--entrypoints.web.address=80"
-      - "--entrypoints.dashboard.address=:8080"
-    
+    container_name: traefik-balancer 
     ports:
       - 80:80
       - 8080:8080
-    labels:
-      - "traefik.enable: true"
-
-      # Dashboard
-      - "traefik.http.routers.traefik.rule: Host(`is-kiyotaka.co.id`)"
-      - "traefik.http.routers.traefik.entrypoints: dashboard"
-    
     volumes:
-      - "./traefik.toml:/etc/traefik/traefik.toml"
+      - "./traefik.yml:/etc/traefik/traefik.yml"
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
   
   server1:
@@ -31,11 +17,6 @@ services:
     ports:
       - 3000:3000
     container_name: server1
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.rotraefik.rule=Host(`is-kiyotaka.co.id`)"
-      - "traefik.http.services.roservices.loadbalancer.server.port: 3001"
-      - "traefik.port=3000"
   
   server2:
     build:
