@@ -1,13 +1,13 @@
-[tcp]
-  [tcp.routers]
-    [tcp.routers.rotraefik]
-      rule = "HostSNI(`is-kiyotaka.co.id`)"
+[http]
+  [http.routers]
+    # Define a connection between requests and services
+    [http.routers.rotraefik]
+      rule = "Host(`is-kiyotaka.co.id`) && PathPrefix(`/`)"
+      # If the rule matches, forward to the whoami service (declared below)
       service = "roservices"
-      [tcp.routers.rotraefik.tls]
-
-  [tcp.services]
-    [tcp.services.roservices.loadBalancer]
-      [[tcp.services.roservices.loadBalancer.servers]]
-        address = "192.168.50.218:3000"
-      [[tcp.services.roservices.loadBalancer.servers]]
-        address = "192.168.50.218:3001"
+  
+  [http.services]
+     # Define how to reach an existing service on our infrastructure
+     [http.services.roservices.loadBalancer]
+       [[http.services.roservices.loadBalancer.servers]]
+         url = "192.168.50.218:3001"
