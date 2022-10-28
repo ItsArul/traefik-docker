@@ -17,7 +17,7 @@ services:
       - "traefik.port=8080"
     
     volumes:
-      - "./traefik.yaml:/traefik.yaml"
+      - "./traefik.toml:/etc/traefik/traefik.toml"
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
   
   server1:
