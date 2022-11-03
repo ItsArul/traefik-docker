@@ -10,6 +10,26 @@ services:
       - "./traefik.yml:/etc/traefik/traefik.yml"
       - "./router.yml:/etc/traefik/router.yml"
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
+
+  prome-monitoring:
+    image: prom/prometheus
+    container_name: traefik-prome
+    ports:
+      - 9090:9090
+    volumes:
+      - "./plg/prometheus.yml:/etc/prometheus/prometheus.yml"
+
+  prome-node:
+    image: prom/node-exporter
+    container_name: traefik-node-exporter
+    ports:
+      - 9100:9100
+
+  grafana-prome:
+    image: grafana/grafana
+    container_name: traefik-grafana
+    ports:
+      - 10000:3000
   
   server1:
     build:
@@ -26,3 +46,5 @@ services:
     ports:
       - 3001:3001
     container_name: server2
+
+
